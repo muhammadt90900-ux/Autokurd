@@ -305,16 +305,37 @@
       });
     }
 
+    function getFirebaseErrorMessage(code) {
+      const errors = {
+        'auth/invalid-email': '❌ ئیمەیڵەکە هەڵەیە، تکایە ئیمەیڵێکی دروست بنووسە',
+        'auth/user-not-found': '❌ هیچ هەژمارێک بەم ئیمەیڵە نەدۆزرایەوە',
+        'auth/wrong-password': '❌ پاسۆردەکە هەڵەیە',
+        'auth/invalid-login-credentials': '❌ ئیمەیڵ یان پاسۆردەکە هەڵەیە',
+        'auth/email-already-in-use': '❌ ئەم ئیمەیڵە پێشتر تۆمارکراوە، تکایە بچۆ ژوورەوە',
+        'auth/weak-password': '❌ پاسۆردەکە کەمە، دەبێت لانیکەم ٦ پیت بێت',
+        'auth/too-many-requests': '❌ زۆر جار هەوڵت دا، کەمێک چاوەڕێ بکە',
+        'auth/network-request-failed': '❌ کێشەی ئینتەرنێت، دووبارە هەوڵ بدەوە',
+      };
+      return errors[code] || '❌ هەڵەیەک ڕوویدا، دووبارە هەوڵ بدەوە';
+    }
+
     function login() {
-      const email = document.getElementById('loginEmail').value;
+      const email = document.getElementById('loginEmail').value.trim();
       const pass = document.getElementById('loginPassword').value;
+      if (!email) { showToast('⚠️ تکایە ئیمەیڵەکەت بنووسە'); return; }
+      if (!pass) { showToast('⚠️ تکایە پاسۆردەکەت بنووسە'); return; }
       auth.signInWithEmailAndPassword(email, pass)
         .then(() => { closeLoginModal(); showToast('✅ چوویتە ژوورەوە'); })
-        .catch(err => showToast('⚠️ ' + err.message));
+        .catch(err => showToast(getFirebaseErrorMessage(err.code)));
     }
+
     function signUp() {
-      const email = document.getElementById('loginEmail').value;
+      const email = document.getElementById('loginEmail').value.trim();
       const pass = document.getElementById('loginPassword').value;
+      if (!email) { showToast('⚠️ تکایە ئیمەیڵەکەت بنووسە'); return; }
+      if (!email.includes('@') || !email.includes('.')) { showToast('❌ ئیمەیڵەکە هەڵەیە، تکایە ئیمەیڵێکی دروست بنووسە'); return; }
+      if (!pass) { showToast('⚠️ تکایە پاسۆردەکەت بنووسە'); return; }
+      if (pass.length < 6) { showToast('❌ پاسۆردەکە کەمە، دەبێت لانیکەم ٦ پیت بێت'); return; }
       auth.createUserWithEmailAndPassword(email, pass)
         .then(cred => {
           return db.collection('users').doc(cred.user.uid).set({
@@ -324,8 +345,8 @@
             vipLevel: 'free'
           });
         })
-        .then(() => { closeLoginModal(); showToast('🎉 هەژمارت دروست بوو'); })
-        .catch(err => showToast('⚠️ ' + err.message));
+        .then(() => { closeLoginModal(); showToast('🎉 هەژمارت دروست بوو، بەخێربێی!'); })
+        .catch(err => showToast(getFirebaseErrorMessage(err.code)));
     }
     function logout() {
       auth.signOut();
