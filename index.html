@@ -438,32 +438,52 @@
       const isVip = document.getElementById('postVip').checked;
       const imageFile = document.getElementById('postImageFile').files[0];
       const videoFile = document.getElementById('postVideoFile').files[0];
-      if (!title || !price || !imageFile) { showToast('⚠️ ناو، نرخ و وێنە پێویستە'); return; }
+
+      if (!title) { showToast('⚠️ تکایە ناوی ئۆتۆمبێل بنووسە'); return; }
+      if (!price || price <= 0) { showToast('⚠️ تکایە نرخێکی دروست بنووسە'); return; }
+      if (!imageFile) { showToast('⚠️ تکایە وێنەیەک هەڵبژێرە'); return; }
+
       const progress = document.getElementById('uploadProgress');
       progress.style.display = 'block';
+      progress.value = 10;
+      showToast('⏳ بڵاوکردنەوە دەستپێکرد...');
+
       try {
         const uid = auth.currentUser.uid;
-        const imgRef = storage.ref(`cars/${uid}/${Date.now()}_${imageFile.name}`);
+        progress.value = 30;
+        const imgRef = storage.ref('cars/' + uid + '/' + Date.now() + '_' + imageFile.name);
         await imgRef.put(imageFile);
         const imageUrl = await imgRef.getDownloadURL();
-        let videoUrl = null;
+        progress.value = 60;
+
+        let videoUrl = '';
         if (videoFile) {
-          const vidRef = storage.ref(`cars/${uid}/${Date.now()}_${videoFile.name}`);
+          const vidRef = storage.ref('cars/' + uid + '/' + Date.now() + '_' + videoFile.name);
           await vidRef.put(videoFile);
           videoUrl = await vidRef.getDownloadURL();
         }
+        progress.value = 80;
+
         await db.collection('cars').add({
           title, price, brand, year, location, vip: isVip,
           imageUrl, videoUrl, views: 0,
           sellerId: uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-        showToast('✅ ئۆتۆمبێل زیادکرا');
-        document.querySelectorAll('#page-post input, #page-post select').forEach(el => el.value = '');
+
+        progress.value = 100;
+        showToast('✅ ئۆتۆمبێل بڵاوکرایەوە!');
+        document.querySelectorAll('#page-post input').forEach(el => el.value = '');
         document.getElementById('postVip').checked = false;
-        document.getElementById('uploadProgress').style.display = 'none';
+        setTimeout(() => { progress.style.display = 'none'; progress.value = 0; }, 1500);
+
       } catch (err) {
-        showToast('❌ هەڵە: ' + err.message);
+        console.error(err);
+        if (err.code === 'storage/unauthorized') {
+          showToast('❌ Firebase Storage Rules دەبێت بگۆڕدرێت - تکایە Rules بکە: allow read, write: if true');
+        } else {
+          showToast('❌ هەڵە: ' + err.message);
+        }
         progress.style.display = 'none';
       }
     }
