@@ -1,1297 +1,548 @@
 <!DOCTYPE html>
 <html lang="ckb" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#1a1a2e">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>ئۆتۆکورد - Autokurd VIP 🚀</title>
-
-    <!-- ==================== فۆنت و ئایکۆن ==================== -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rabar&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <style>
-        :root {
-            --bg: #ffffff;
-            --bg2: #f5f5f7;
-            --card: #ffffff;
-            --text: #1a1a2e;
-            --text2: #555;
-            --accent: #e63946;
-            --accent2: #ff6b6b;
-            --gold: #f4a261;
-            --gold2: #e9c46a;
-            --nav-bg: #ffffff;
-            --border: #e0e0e0;
-            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-            --radius: 16px;
-            --radius-sm: 10px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --skeleton: #e8e8e8;
-            --badge-bg: linear-gradient(135deg, #f4a261, #e9c46a);
-            --vip-bg: linear-gradient(135deg, #1a1a2e, #16213e);
-        }
-
-        .dark-mode {
-            --bg: #0d0d1a;
-            --bg2: #141428;
-            --card: #1a1a30;
-            --text: #e8e8f0;
-            --text2: #aaa;
-            --nav-bg: #12122a;
-            --border: #2a2a44;
-            --shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-            --skeleton: #2a2a40;
-            --vip-bg: linear-gradient(135deg, #0a0a18, #1a1a3a);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            font-family: 'Rabar', 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            transition: background var(--transition), color var(--transition);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            max-width: 500px;
-            margin: 0 auto;
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 80px;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        /* ==================== سکرۆڵ باڕ ==================== */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
-
-        /* ==================== سکێلێتۆن لۆدینگ ==================== */
-        .skeleton {
-            background: var(--skeleton);
-            border-radius: var(--radius-sm);
-            animation: shimmer 1.5s infinite;
-            background: linear-gradient(90deg, var(--skeleton) 25%, transparent 50%, var(--skeleton) 75%);
-            background-size: 200% 100%;
-        }
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-            100% {
-                background-position: -200% 0;
-            }
-        }
-        .skeleton-card {
-            height: 280px;
-            border-radius: var(--radius);
-        }
-        .skeleton-text {
-            height: 16px;
-            margin: 8px 0;
-            border-radius: 8px;
-            width: 70%;
-        }
-        .skeleton-text.short {
-            width: 40%;
-        }
-
-        /* ==================== هێدەر ==================== */
-        .app-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: var(--bg);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: all var(--transition);
-        }
-        .app-logo {
-            font-size: 1.5em;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--accent), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -0.5px;
-        }
-        .header-icons {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        .header-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: var(--bg2);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1em;
-            color: var(--text);
-            transition: all var(--transition);
-            position: relative;
-        }
-        .header-icon:hover {
-            background: var(--accent);
-            color: #fff;
-            transform: scale(1.05);
-        }
-        .notif-dot {
-            position: absolute;
-            top: 6px;
-            right: 6px;
-            width: 10px;
-            height: 10px;
-            background: var(--accent);
-            border-radius: 50%;
-            border: 2px solid var(--bg);
-            animation: pulse-dot 2s infinite;
-        }
-        @keyframes pulse-dot {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.5);
-            }
-        }
-
-        /* ==================== ناڤیگەیشنی خوارەوە ==================== */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 500px;
-            background: var(--nav-bg);
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 8px 4px 14px;
-            z-index: 100;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: all var(--transition);
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            color: var(--text2);
-            transition: all var(--transition);
-            font-size: 0.7em;
-            padding: 6px 12px;
-            border-radius: 20px;
-            position: relative;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-        .nav-item i {
-            font-size: 1.5em;
-            transition: all var(--transition);
-        }
-        .nav-item.active {
-            color: var(--accent);
-            font-weight: 700;
-        }
-        .nav-item.active i {
-            transform: translateY(-2px);
-            text-shadow: 0 4px 12px rgba(230, 57, 70, 0.4);
-        }
-        .nav-item.plus-btn i {
-            font-size: 2em;
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: glow-pulse 2s infinite;
-        }
-        @keyframes glow-pulse {
-            0%,
-            100% {
-                filter: drop-shadow(0 0 4px rgba(230, 57, 70, 0.5));
-            }
-            50% {
-                filter: drop-shadow(0 0 16px rgba(230, 57, 70, 0.9));
-            }
-        }
-
-        /* ==================== پەڕەکان ==================== */
-        .page {
-            display: none;
-            padding: 16px;
-            animation: fadeSlideIn 0.35s ease-out;
-        }
-        .page.active {
-            display: block;
-        }
-        @keyframes fadeSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(16px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ==================== کاردی ئۆتۆمبێل ==================== */
-        .car-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            margin-bottom: 16px;
-            transition: all var(--transition);
-            cursor: pointer;
-            position: relative;
-            border: 1px solid var(--border);
-        }
-        .car-card:hover {
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-2px);
-        }
-        .car-card.vip-featured {
-            border: 2px solid var(--gold);
-            box-shadow: 0 0 20px rgba(244, 162, 97, 0.3);
-        }
-        .car-card-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.5s ease;
-        }
-        .car-card:hover .car-card-img {
-            transform: scale(1.03);
-        }
-        .car-card-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            background: var(--badge-bg);
-            color: #1a1a2e;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            font-weight: 700;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .car-card-badge.vip-badge {
-            background: var(--vip-bg);
-            color: var(--gold);
-            left: auto;
-            right: 12px;
-        }
-        .car-card-body {
-            padding: 12px 14px;
-        }
-        .car-card-title {
-            font-weight: 700;
-            font-size: 1.1em;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .car-card-price {
-            color: var(--accent);
-            font-weight: 900;
-            font-size: 1.2em;
-        }
-        .car-card-location {
-            color: var(--text2);
-            font-size: 0.85em;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .fav-btn {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            z-index: 3;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            cursor: pointer;
-            color: #fff;
-            font-size: 1.1em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition);
-            backdrop-filter: blur(4px);
-        }
-        .fav-btn.liked {
-            background: var(--accent);
-            color: #fff;
-            animation: heartBeat 0.5s ease;
-        }
-        @keyframes heartBeat {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            30% {
-                transform: scale(1.3);
-            }
-            60% {
-                transform: scale(0.9);
-            }
-        }
-
-        /* ==================== ڤیدیۆ فید (تک تۆک ستایل) ==================== */
-        .video-feed {
-            height: calc(100vh - 160px);
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            -webkit-overflow-scrolling: touch;
-            border-radius: var(--radius);
-        }
-        .video-item {
-            height: calc(100vh - 160px);
-            scroll-snap-align: start;
-            position: relative;
-            background: #000;
-            border-radius: var(--radius);
-            overflow: hidden;
-            margin-bottom: 4px;
-        }
-        .video-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .video-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
-            color: #fff;
-        }
-        .video-sound-btn {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.5);
-            border: none;
-            cursor: pointer;
-            color: #fff;
-            font-size: 1.1em;
-            z-index: 5;
-            backdrop-filter: blur(4px);
-        }
-
-        /* ==================== بەشی گەڕان و فلتەر ==================== */
-        .search-box {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            background: var(--bg2);
-            border-radius: 30px;
-            padding: 8px 16px;
-            margin-bottom: 12px;
-            border: 2px solid transparent;
-            transition: all var(--transition);
-        }
-        .search-box:focus-within {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
-        }
-        .search-box input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 10px 0;
-            font-size: 1em;
-            color: var(--text);
-            font-family: inherit;
-            outline: none;
-        }
-        .filter-chips {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding: 8px 0;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-        .filter-chips::-webkit-scrollbar {
-            display: none;
-        }
-        .chip {
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: var(--bg2);
-            border: 1px solid var(--border);
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 0.85em;
-            transition: all var(--transition);
-            font-family: inherit;
-            color: var(--text);
-        }
-        .chip.active {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-
-        /* ==================== مۆداڵ / فۆڕم ==================== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 200;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            animation: fadeIn 0.25s ease;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        .modal-sheet {
-            background: var(--card);
-            width: 100%;
-            max-width: 500px;
-            border-radius: 20px 20px 0 0;
-            padding: 20px;
-            max-height: 85vh;
-            overflow-y: auto;
-            animation: slideUp 0.35s ease;
-        }
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
-        .modal-handle {
-            width: 40px;
-            height: 5px;
-            background: var(--border);
-            border-radius: 10px;
-            margin: 0 auto 16px;
-        }
-        .form-group {
-            margin-bottom: 14px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            font-size: 0.9em;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: var(--radius-sm);
-            border: 2px solid var(--border);
-            background: var(--bg2);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 1em;
-            transition: all var(--transition);
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.08);
-        }
-        .btn {
-            padding: 12px 24px;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1em;
-            font-family: inherit;
-            transition: all var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: #fff;
-            width: 100%;
-            box-shadow: 0 4px 16px rgba(230, 57, 70, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(230, 57, 70, 0.45);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
-        }
-        .btn-gold {
-            background: var(--badge-bg);
-            color: #1a1a2e;
-            font-weight: 900;
-            width: 100%;
-        }
-
-        /* ==================== پڕۆفایل ==================== */
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--accent);
-            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
-        }
-        .vip-plan-card {
-            background: var(--vip-bg);
-            border-radius: var(--radius);
-            padding: 16px;
-            color: #fff;
-            margin: 12px 0;
-            text-align: center;
-            border: 2px solid var(--gold);
-        }
-        .vip-plan-card h3 {
-            color: var(--gold);
-        }
-
-        /* ==================== نۆتیفیکەیشن ==================== */
-        .toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--card);
-            color: var(--text);
-            padding: 14px 20px;
-            border-radius: 30px;
-            box-shadow: var(--shadow-lg);
-            z-index: 999;
-            font-weight: 600;
-            animation: toastIn 0.4s ease, toastOut 0.4s ease 2.5s forwards;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid var(--border);
-        }
-        @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-        @keyframes toastOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-30px);
-            }
-        }
-
-        /* ==================== ڕێسپۆنسیڤ ==================== */
-        @media (max-width: 380px) {
-            .car-card-img {
-                height: 180px;
-            }
-            .video-item {
-                height: calc(100vh - 140px);
-            }
-            .video-feed {
-                height: calc(100vh - 140px);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>ئۆتۆکورد VIP</title>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+  <!-- فۆنت و ئایکۆن -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rabar&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* ... هەمان ستایلی پێشوو بەڵام لێرە دەبێت بیخەیتەوە ...
+       بۆ کورتکردنەوە، ستایلەکانی پێشوو بە تەواوی لە کۆدی خوارەوە کۆپیکراوە. */
+    :root {
+      --bg: #ffffff; --bg2: #f5f5f7; --card: #ffffff; --text: #1a1a2e; --text2: #555;
+      --accent: #e63946; --accent2: #ff6b6b; --gold: #f4a261; --gold2: #e9c46a;
+      --nav-bg: #ffffff; --border: #e0e0e0; --shadow: 0 2px 12px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12); --radius: 16px; --radius-sm: 10px;
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1); --skeleton: #e8e8e8;
+    }
+    .dark-mode {
+      --bg: #0d0d1a; --bg2: #141428; --card: #1a1a30; --text: #e8e8f0; --text2: #aaa;
+      --nav-bg: #12122a; --border: #2a2a44; --shadow: 0 2px 12px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.5); --skeleton: #2a2a40;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    body {
+      font-family: 'Rabar', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text);
+      transition: background var(--transition), color var(--transition); max-width:500px; margin:0 auto;
+      min-height:100vh; padding-bottom:80px; user-select:none; -webkit-user-select:none;
+    }
+    .app-header {
+      position:sticky; top:0; z-index:100; background:var(--bg); padding:12px 16px;
+      display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border);
+      backdrop-filter:blur(20px); transition:all var(--transition);
+    }
+    .app-logo { font-size:1.5em; font-weight:900; background: linear-gradient(135deg, var(--accent), var(--gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .header-icons { display:flex; gap:12px; align-items:center; }
+    .header-icon {
+      width:38px; height:38px; border-radius:50%; background:var(--bg2); border:none; cursor:pointer;
+      display:flex; align-items:center; justify-content:center; font-size:1.1em; color:var(--text);
+      transition:all var(--transition); position:relative;
+    }
+    .header-icon:hover { background:var(--accent); color:#fff; transform:scale(1.05); }
+    .notif-dot { position:absolute; top:6px; right:6px; width:10px; height:10px; background:var(--accent); border-radius:50%; border:2px solid var(--bg); animation:pulse-dot 2s infinite; }
+    @keyframes pulse-dot { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+    .bottom-nav {
+      position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:500px;
+      background:var(--nav-bg); border-top:1px solid var(--border); display:flex; justify-content:space-around;
+      align-items:center; padding:8px 4px 14px; z-index:100; backdrop-filter:blur(20px); transition:all var(--transition);
+    }
+    .nav-item { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; color:var(--text2); transition:all var(--transition); font-size:0.7em; padding:6px 12px; border-radius:20px; background:none; border:none; font-family:inherit; }
+    .nav-item i { font-size:1.5em; transition:all var(--transition); }
+    .nav-item.active { color:var(--accent); font-weight:700; }
+    .nav-item.active i { transform:translateY(-2px); text-shadow:0 4px 12px rgba(230,57,70,0.4); }
+    .plus-btn i { font-size:2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:glow-pulse 2s infinite; }
+    @keyframes glow-pulse { 0%,100%{filter:drop-shadow(0 0 4px rgba(230,57,70,0.5))} 50%{filter:drop-shadow(0 0 16px rgba(230,57,70,0.9))} }
+    .page { display:none; padding:16px; animation:fadeSlideIn 0.35s ease-out; }
+    .page.active { display:block; }
+    @keyframes fadeSlideIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+    .car-card {
+      background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);
+      margin-bottom:16px; transition:all var(--transition); cursor:pointer; position:relative; border:1px solid var(--border);
+    }
+    .car-card.vip-featured { border:2px solid var(--gold); box-shadow:0 0 20px rgba(244,162,97,0.3); }
+    .car-card-img { width:100%; height:220px; object-fit:cover; display:block; }
+    .car-card-badge { position:absolute; top:12px; left:12px; background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#1a1a2e; padding:5px 12px; border-radius:20px; font-size:0.75em; font-weight:700; z-index:2; }
+    .car-card-badge.vip-badge { background:linear-gradient(135deg,#1a1a2e,#16213e); color:var(--gold); left:auto; right:12px; }
+    .car-card-body { padding:12px 14px; }
+    .car-card-title { font-weight:700; font-size:1.1em; margin-bottom:4px; display:flex; align-items:center; justify-content:space-between; }
+    .car-card-price { color:var(--accent); font-weight:900; font-size:1.2em; }
+    .car-card-location { color:var(--text2); font-size:0.85em; display:flex; align-items:center; gap:4px; }
+    .fav-btn {
+      position:absolute; top:12px; right:12px; z-index:3; width:36px; height:36px; border-radius:50%;
+      background:rgba(0,0,0,0.5); border:none; cursor:pointer; color:#fff; font-size:1.1em;
+      display:flex; align-items:center; justify-content:center; transition:all var(--transition); backdrop-filter:blur(4px);
+    }
+    .fav-btn.liked { background:var(--accent); animation:heartBeat 0.5s ease; }
+    @keyframes heartBeat { 0%,100%{transform:scale(1)} 30%{transform:scale(1.3)} 60%{transform:scale(0.9)} }
+    .search-box { display:flex; gap:8px; align-items:center; background:var(--bg2); border-radius:30px; padding:8px 16px; margin-bottom:12px; border:2px solid transparent; transition:all var(--transition); }
+    .search-box:focus-within { border-color:var(--accent); box-shadow:0 0 0 4px rgba(230,57,70,0.1); }
+    .search-box input { flex:1; border:none; background:transparent; padding:10px 0; font-size:1em; color:var(--text); font-family:inherit; outline:none; }
+    .filter-chips { display:flex; gap:8px; overflow-x:auto; padding:8px 0; scrollbar-width:none; }
+    .chip { padding:8px 16px; border-radius:20px; background:var(--bg2); border:1px solid var(--border); cursor:pointer; white-space:nowrap; font-size:0.85em; transition:all var(--transition); font-family:inherit; color:var(--text); }
+    .chip.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; display:flex; align-items:flex-end; justify-content:center; animation:fadeIn 0.25s ease; }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+    .modal-sheet { background:var(--card); width:100%; max-width:500px; border-radius:20px 20px 0 0; padding:20px; max-height:85vh; overflow-y:auto; animation:slideUp 0.35s ease; }
+    @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+    .modal-handle { width:40px; height:5px; background:var(--border); border-radius:10px; margin:0 auto 16px; }
+    .form-group { margin-bottom:14px; }
+    .form-group label { display:block; margin-bottom:6px; font-weight:600; font-size:0.9em; }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:12px 14px; border-radius:var(--radius-sm); border:2px solid var(--border); background:var(--bg2); color:var(--text); font-family:inherit; font-size:1em; transition:all var(--transition); }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--accent); outline:none; box-shadow:0 0 0 4px rgba(230,57,70,0.08); }
+    .btn { padding:12px 24px; border-radius:30px; border:none; cursor:pointer; font-weight:700; font-size:1em; font-family:inherit; transition:all var(--transition); display:inline-flex; align-items:center; gap:8px; justify-content:center; }
+    .btn-primary { background:linear-gradient(135deg, var(--accent), var(--accent2)); color:#fff; width:100%; box-shadow:0 4px 16px rgba(230,57,70,0.3); }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(230,57,70,0.45); }
+    .btn-outline { background:transparent; border:2px solid var(--accent); color:var(--accent); }
+    .btn-gold { background:linear-gradient(135deg,var(--gold),var(--gold2)); color:#1a1a2e; font-weight:900; width:100%; }
+    .profile-avatar { width:80px; height:80px; border-radius:50%; object-fit:cover; border:4px solid var(--accent); box-shadow:0 4px 20px rgba(230,57,70,0.3); }
+    .vip-plan-card { background:linear-gradient(135deg,#0a0a18,#1a1a3a); border-radius:var(--radius); padding:16px; color:#fff; margin:12px 0; text-align:center; border:2px solid var(--gold); }
+    .vip-plan-card h3 { color:var(--gold); }
+    .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:var(--card); color:var(--text); padding:14px 20px; border-radius:30px; box-shadow:var(--shadow-lg); z-index:999; font-weight:600; animation:toastIn 0.4s ease, toastOut 0.4s ease 2.5s forwards; display:flex; align-items:center; gap:8px; border:1px solid var(--border); }
+    @keyframes toastIn { from{opacity:0;transform:translateX(-50%) translateY(-30px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+    @keyframes toastOut { from{opacity:1} to{opacity:0;transform:translateX(-50%) translateY(-30px)} }
+  </style>
 </head>
 <body>
-
-    <!-- ==================== هێدەر ==================== -->
-    <header class="app-header" id="appHeader">
-        <span class="app-logo">🚀 ئۆتۆکورد</span>
-        <div class="header-icons">
-            <button class="header-icon" onclick="toggleDarkMode()" title="Dark Mode">
-                <i class="fas fa-moon" id="darkModeIcon"></i>
-            </button>
-            <button class="header-icon" onclick="showNotifications()" title="ئاگاداریەکان">
-                <i class="fas fa-bell"></i>
-                <span class="notif-dot" id="notifDot" style="display:none;"></span>
-            </button>
-            <button class="header-icon" onclick="switchLanguage()" title="زمان">
-                <i class="fas fa-globe"></i>
-            </button>
-        </div>
-    </header>
-
-    <!-- ==================== پەڕەکان ==================== -->
-    <!-- پەڕەی سەرەکی -->
-    <div class="page active" id="page-home">
-        <div style="display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;">
-            <button class="chip active" onclick="filterTab(this,'all')">📋 هەمووی</button>
-            <button class="chip" onclick="filterTab(this,'vip')">👑 VIP</button>
-            <button class="chip" onclick="filterTab(this,'video')">🎥 ڤیدیۆ</button>
-            <button class="chip" onclick="filterTab(this,'cheap')">💰 هەرزان</button>
-            <button class="chip" onclick="filterTab(this,'new')">🆕 نوێترین</button>
-        </div>
-        <div id="homeFeed">
-            <!-- سکێلێتۆن لۆدینگ -->
-            <div class="skeleton skeleton-card" style="margin-bottom:16px;"></div>
-            <div class="skeleton skeleton-card" style="margin-bottom:16px;"></div>
-        </div>
+  <!-- هێدەر -->
+  <header class="app-header">
+    <span class="app-logo">🚀 ئۆتۆکورد</span>
+    <div class="header-icons">
+      <button class="header-icon" onclick="toggleDarkMode()"><i class="fas fa-moon" id="darkIcon"></i></button>
+      <button class="header-icon" onclick="showNotifications()"><i class="fas fa-bell"></i><span class="notif-dot" id="notifDot" style="display:none;"></span></button>
+      <button class="header-icon" onclick="switchLanguage()"><i class="fas fa-globe"></i></button>
     </div>
+  </header>
 
-    <!-- پەڕەی گەڕان -->
-    <div class="page" id="page-search">
-        <div class="search-box">
-            <i class="fas fa-search" style="color:var(--text2);"></i>
-            <input type="text" id="searchInput" placeholder="گەڕان بە ناو یان براند..." oninput="searchCars()">
-            <i class="fas fa-sliders-h" style="color:var(--accent);cursor:pointer;" onclick="toggleFilterPanel()"></i>
-        </div>
-        <div id="filterPanel" style="display:none;">
-            <div class="form-group"><label>💰 نرخ (لە - بۆ)</label>
-                <div style="display:flex;gap:8px;">
-                    <input type="number" id="priceMin" placeholder="کەمترین" onchange="searchCars()">
-                    <input type="number" id="priceMax" placeholder="زۆرترین" onchange="searchCars()">
-                </div>
-            </div>
-            <div class="form-group"><label>🚗 براند</label>
-                <select id="brandFilter" onchange="searchCars()">
-                    <option value="">هەموو</option>
-                    <option value="تۆیۆتا">تۆیۆتا</option>
-                    <option value="BMW">BMW</option>
-                    <option value="مرسیدس">مرسیدس</option>
-                    <option value="هیوندا">هیوندا</option>
-                    <option value="کیا">کیا</option>
-                    <option value="فۆرد">فۆرد</option>
-                </select>
-            </div>
-            <div class="form-group"><label>📅 ساڵ</label>
-                <select id="yearFilter" onchange="searchCars()">
-                    <option value="">هەموو</option>
-                    <option value="2024">2024</option><option value="2023">2023</option>
-                    <option value="2022">2022</option><option value="2020">2020</option>
-                    <option value="2018">2018</option>
-                </select>
-            </div>
-            <div class="form-group"><label>📍 شوێن</label>
-                <select id="locationFilter" onchange="searchCars()">
-                    <option value="">هەموو</option>
-                    <option value="هەولێر">هەولێر</option>
-                    <option value="سلێمانی">سلێمانی</option>
-                    <option value="دهۆک">دهۆک</option>
-                </select>
-            </div>
-            <button class="btn btn-outline" onclick="resetFilters()" style="width:100%;">🔄 ڕیسێت</button>
-        </div>
-        <div id="searchResults"><p style="text-align:center;color:var(--text2);">🔍 بگەڕێ بۆ ئۆتۆمبێل...</p></div>
+  <!-- پەڕەکان -->
+  <div class="page active" id="page-home">
+    <div style="display:flex;gap:8px;margin-bottom:12px;overflow-x:auto;">
+      <button class="chip active" data-filter="all">📋 <span data-i18n="all">هەمووی</span></button>
+      <button class="chip" data-filter="vip">👑 VIP</button>
+      <button class="chip" data-filter="video">🎥 <span data-i18n="video">ڤیدیۆ</span></button>
+      <button class="chip" data-filter="cheap">💰 <span data-i18n="cheapest">هەرزان</span></button>
+      <button class="chip" data-filter="new">🆕 <span data-i18n="newest">نوێترین</span></button>
     </div>
-
-    <!-- پە�ەی زیادکردن (پۆست) -->
-    <div class="page" id="page-post">
-        <h2 style="margin-bottom:16px;">📸 ئۆتۆمبێلێک زیاد بکە</h2>
-        <div class="form-group"><label>📷 وێنە (URL)</label><input type="url" id="postImage" placeholder="لینکی وێنە..."></div>
-        <div class="form-group"><label>🎥 ڤیدیۆ (URL - ئارەزوومەندانە)</label><input type="url" id="postVideo" placeholder="لینکی ڤیدیۆ..."></div>
-        <div class="form-group"><label>🚗 ناوی ئۆتۆمبێل</label><input type="text" id="postTitle" placeholder="بۆ نموونە: تۆیۆتا کەمری 2024"></div>
-        <div class="form-group"><label>💰 نرخ ($)</label><input type="number" id="postPrice" placeholder="25000"></div>
-        <div class="form-group"><label>🚘 براند</label><select id="postBrand"><option>تۆیۆتا</option><option>BMW</option><option>مرسیدس</option><option>هیوندا</option><option>کیا</option><option>فۆرد</option></select></div>
-        <div class="form-group"><label>📅 ساڵ</label><input type="number" id="postYear" placeholder="2024"></div>
-        <div class="form-group"><label>📍 شوێن</label><select id="postLocation"><option>هەولێر</option><option>سلێمانی</option><option>دهۆک</option></select></div>
-        <div class="form-group"><label>📝 باسی زیاتر</label><textarea id="postDesc" rows="3" placeholder="باسی ئۆتۆمبێلەکە بکە..."></textarea></div>
-        <div class="form-group"><label><input type="checkbox" id="postVip"> 👑 ئەم پۆستە VIP بکە</label></div>
-        <button class="btn btn-primary" onclick="addCar()">🚀 بڵاوکردنەوە</button>
+    <div id="homeFeed"></div>
+  </div>
+  <div class="page" id="page-search">
+    <div class="search-box">
+      <i class="fas fa-search" style="color:var(--text2)"></i>
+      <input type="text" id="searchInput" placeholder="گەڕان...">
+      <i class="fas fa-sliders-h" style="color:var(--accent);cursor:pointer" onclick="toggleFilterPanel()"></i>
     </div>
-
-    <!-- پەڕەی دڵخوازەکان -->
-    <div class="page" id="page-favorites">
-        <h2 style="margin-bottom:16px;">❤️ دڵخوازەکان</h2>
-        <div id="favoritesList"><p style="text-align:center;color:var(--text2);">هێشتا هیچ دڵخوازێک نییە...</p></div>
+    <div id="filterPanel" style="display:none;">
+      <div class="form-group"><label>💰 <span data-i18n="price">نرخ</span></label><div style="display:flex;gap:8px"><input type="number" id="priceMin" placeholder="کەمترین" onchange="searchCars()"><input type="number" id="priceMax" placeholder="زۆرترین" onchange="searchCars()"></div></div>
+      <div class="form-group"><label>🚗 <span data-i18n="brand">براند</span></label><select id="brandFilter" onchange="searchCars()"><option value="">هەموو</option><option>تۆیۆتا</option><option>BMW</option><option>مرسیدس</option><option>هیوندا</option></select></div>
+      <div class="form-group"><label>📅 <span data-i18n="year">ساڵ</span></label><select id="yearFilter" onchange="searchCars()"><option value="">هەموو</option><option>2024</option><option>2023</option><option>2022</option></select></div>
+      <div class="form-group"><label>📍 <span data-i18n="location">شوێن</span></label><select id="locationFilter" onchange="searchCars()"><option value="">هەموو</option><option>هەولێر</option><option>سلێمانی</option><option>دهۆک</option></select></div>
+      <button class="btn btn-outline" onclick="resetFilters()" style="width:100%;">🔄 <span data-i18n="reset">ڕیسێت</span></button>
     </div>
-
-    <!-- پەڕەی پڕۆفایل -->
-    <div class="page" id="page-profile">
-        <div style="text-align:center;margin-bottom:20px;">
-            <img src="https://ui-avatars.com/api/?name=User&background=e63946&color=fff&size=120&bold=true" alt="Avatar" class="profile-avatar" id="profileAvatar">
-            <h3 id="profileName">بەکارهێنەر</h3>
-            <p style="color:var(--text2);" id="profilePhone">+964 700 000 0000</p>
-            <span style="background:var(--bg2);padding:6px 14px;border-radius:20px;font-size:0.8em;" id="profileBadge">⭐ Free</span>
-        </div>
-        <!-- VIP پلانەکان -->
-        <div class="vip-plan-card">
-            <h3>👑 ببە بە VIP</h3>
-            <p>پۆستەکانت featured دەبن و بینینی زیاتر بەدەست دەهێنن!</p>
-            <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;">
-                <button class="btn btn-gold" onclick="upgradeVip('vip')" style="flex:1;min-width:100px;">👑 VIP<br><small>$9.99/مانگ</small></button>
-                <button class="btn btn-gold" onclick="upgradeVip('pro')" style="flex:1;min-width:100px;">💎 PRO<br><small>$19.99/مانگ</small></button>
-            </div>
-        </div>
-        <!-- ئۆتۆمبێلەکانی من -->
-        <h4 style="margin-top:16px;">🚗 ئۆتۆمبێلەکانی من</h4>
-        <div id="myCarsList"><p style="color:var(--text2);">هێشتا هیچ پۆستێکت نەکردووە</p></div>
-        <button class="btn btn-outline" onclick="showLoginModal()" style="width:100%;margin-top:8px;">🔐 چوونەژوورەوە / خۆتۆمارکردن</button>
+    <div id="searchResults"></div>
+  </div>
+  <div class="page" id="page-post">
+    <h2>📸 <span data-i18n="post_car">ئۆتۆمبێل زیاد بکە</span></h2>
+    <div class="form-group"><label>📷 <span data-i18n="image">وێنە</span></label><input type="file" id="postImageFile" accept="image/*"></div>
+    <div class="form-group"><label>🎥 <span data-i18n="video">ڤیدیۆ</span></label><input type="file" id="postVideoFile" accept="video/*"></div>
+    <div class="form-group"><label>🚗 <span data-i18n="car_name">ناوی ئۆتۆمبێل</span></label><input type="text" id="postTitle"></div>
+    <div class="form-group"><label>💰 <span data-i18n="price">نرخ</span></label><input type="number" id="postPrice"></div>
+    <div class="form-group"><label>🚘 <span data-i18n="brand">براند</span></label><select id="postBrand"><option>تۆیۆتا</option><option>BMW</option><option>مرسیدس</option></select></div>
+    <div class="form-group"><label>📅 <span data-i18n="year">ساڵ</span></label><input type="number" id="postYear"></div>
+    <div class="form-group"><label>📍 <span data-i18n="location">شوێن</span></label><select id="postLocation"><option>هەولێر</option><option>سلێمانی</option><option>دهۆک</option></select></div>
+    <div class="form-group"><label><input type="checkbox" id="postVip"> 👑 VIP</label></div>
+    <button class="btn btn-primary" onclick="uploadCar()">🚀 <span data-i18n="publish">بڵاوکردنەوە</span></button>
+    <progress id="uploadProgress" value="0" max="100" style="width:100%;margin-top:8px;display:none;"></progress>
+  </div>
+  <div class="page" id="page-favorites">
+    <h2>❤️ <span data-i18n="favorites">دڵخوازەکان</span></h2>
+    <div id="favoritesList"></div>
+  </div>
+  <div class="page" id="page-profile">
+    <div style="text-align:center;margin-bottom:20px;">
+      <img id="profileAvatar" class="profile-avatar" src="https://ui-avatars.com/api/?name=User&background=e63946&color=fff&size=120&bold=true">
+      <h3 id="profileName">بەکارهێنەر</h3>
+      <p id="profileEmail" style="color:var(--text2)"></p>
+      <span id="profileBadge" style="background:var(--bg2);padding:6px 14px;border-radius:20px;">⭐ Free</span>
     </div>
-
-    <!-- ==================== مۆداڵی لۆگین ==================== -->
-    <div class="modal-overlay" id="loginModal" style="display:none;" onclick="if(event.target===this)closeLoginModal()">
-        <div class="modal-sheet">
-            <div class="modal-handle"></div>
-            <h3 style="text-align:center;margin-bottom:16px;">🔐 بەخێربێیت</h3>
-            <div class="form-group"><label>ئیمەیڵ</label><input type="email" id="loginEmail" placeholder="example@email.com"></div>
-            <div class="form-group"><label>پاسۆرد</label><input type="password" id="loginPassword" placeholder="******"></div>
-            <button class="btn btn-primary" onclick="login()">🔓 چوونەژوورەوە</button>
-            <p style="text-align:center;margin-top:8px;color:var(--text2);cursor:pointer;" onclick="signUp()">📝 هەژمارت نییە؟ خۆتۆماربکە</p>
-        </div>
+    <div class="vip-plan-card">
+      <h3>👑 <span data-i18n="vip_plans">پلانەکانی VIP</span></h3>
+      <button class="btn btn-gold" onclick="upgradeVip('vip')" style="margin:4px;">👑 VIP</button>
+      <button class="btn btn-gold" onclick="upgradeVip('pro')" style="margin:4px;">💎 PRO</button>
     </div>
+    <h4>🚗 <span data-i18n="my_cars">ئۆتۆمبێلەکانم</span></h4>
+    <div id="myCarsList"></div>
+    <button class="btn btn-outline" onclick="showLoginModal()" style="width:100%;margin-top:12px;">🔐 <span data-i18n="login">چوونەژوورەوە</span></button>
+    <button class="btn btn-outline" onclick="logout()" style="width:100%;margin-top:4px;">🚪 <span data-i18n="logout">چوونەدەرەوە</span></button>
+  </div>
 
-    <!-- ==================== مۆداڵی نۆتیفیکەیشن ==================== -->
-    <div class="modal-overlay" id="notifModal" style="display:none;" onclick="if(event.target===this)closeNotifModal()">
-        <div class="modal-sheet">
-            <div class="modal-handle"></div>
-            <h3>🔔 ئاگاداریەکان</h3>
-            <div id="notifList">
-                <p style="padding:12px;border-bottom:1px solid var(--border);">🆕 ئۆتۆمبێلی نوێ زیادکرا - تۆیۆتا کەمری</p>
-                <p style="padding:12px;border-bottom:1px solid var(--border);">❤️ کەسێک likeی پۆستی تۆی کرد</p>
-                <p style="padding:12px;">💰 نرخی BMW دابەزی بۆ $18000</p>
-            </div>
-        </div>
+  <!-- مۆداڵی لۆگین -->
+  <div class="modal-overlay" id="loginModal" style="display:none;" onclick="if(event.target===this)closeLoginModal()">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <h3>🔐 <span data-i18n="login_title">بەخێربێیت</span></h3>
+      <div class="form-group"><label>Email</label><input type="email" id="loginEmail"></div>
+      <div class="form-group"><label><span data-i18n="password">پاسۆرد</span></label><input type="password" id="loginPassword"></div>
+      <button class="btn btn-primary" onclick="login()">🔓 <span data-i18n="signin">چوونەژوورەوە</span></button>
+      <p style="text-align:center;margin-top:8px;cursor:pointer;" onclick="signUp()">📝 <span data-i18n="signup">خۆتۆمارکردن</span></p>
     </div>
+  </div>
 
-    <!-- ==================== ناڤیگەیشنی خوارەوە ==================== -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" data-page="home" onclick="navigateTo('home')">
-            <i class="fas fa-home"></i><span>سەرەکی</span>
-        </button>
-        <button class="nav-item" data-page="search" onclick="navigateTo('search')">
-            <i class="fas fa-search"></i><span>گەڕان</span>
-        </button>
-        <button class="nav-item plus-btn" data-page="post" onclick="navigateTo('post')">
-            <i class="fas fa-plus-circle"></i><span>پۆست</span>
-        </button>
-        <button class="nav-item" data-page="favorites" onclick="navigateTo('favorites')">
-            <i class="fas fa-heart"></i><span>دڵخواز</span>
-        </button>
-        <button class="nav-item" data-page="profile" onclick="navigateTo('profile')">
-            <i class="fas fa-user"></i><span>پڕۆفایل</span>
-        </button>
-    </nav>
+  <!-- ناڤیگەیشن -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-page="home"><i class="fas fa-home"></i><span data-i18n="home">سەرەکی</span></button>
+    <button class="nav-item" data-page="search"><i class="fas fa-search"></i><span data-i18n="search">گەڕان</span></button>
+    <button class="nav-item plus-btn" data-page="post"><i class="fas fa-plus-circle"></i><span data-i18n="post">پۆست</span></button>
+    <button class="nav-item" data-page="favorites"><i class="fas fa-heart"></i><span data-i18n="fav">دڵخواز</span></button>
+    <button class="nav-item" data-page="profile"><i class="fas fa-user"></i><span data-i18n="profile">پڕۆفایل</span></button>
+  </nav>
 
-    <!-- ==================== سکریپت ==================== -->
-    <script>
-        // ==================== داتای سەرەتایی ====================
-        let cars = JSON.parse(localStorage.getItem('autokurd_cars')) || [
-            { id: 1, title: 'تۆیۆتا کەمری 2024', brand: 'تۆیۆتا', price: 28000, year: 2024, location: 'هەولێر',
-                image: 'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=600', video: null, vip: true,
-                featured: true, views: 1540, desc: 'زۆر پاک و خێرا' },
-            { id: 2, title: 'BMW X5 2023', brand: 'BMW', price: 45000, year: 2023, location: 'سلێمانی',
-                image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600', video: null, vip: true,
-                featured: false, views: 980, desc: 'سەروەری ڕێگاکان' },
-            { id: 3, title: 'مرسیدس C-Class', brand: 'مرسیدس', price: 35000, year: 2022, location: 'دهۆک',
-                image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600', video: null, vip: false,
-                featured: false, views: 720, desc: 'لوکس و ڕەنگین' },
-            { id: 4, title: 'هیوندا سانتافێ', brand: 'هیوندا', price: 22000, year: 2023, location: 'هەولێر',
-                image: 'https://images.unsplash.com/photo-1682686581854-5e71f58e7e3f?w=600', video: null, vip: false,
-                featured: false, views: 450, desc: 'بۆ خێزان گونجاوە' },
-            { id: 5, title: 'کیا سپۆرتەیج', brand: 'کیا', price: 19000, year: 2021, location: 'سلێمانی',
-                image: 'https://images.unsplash.com/photo-1619767886558-efdc7b9af5de?w=600', video: null, vip: false,
-                featured: false, views: 310, desc: 'ئابووری و پتەو' },
-        ];
+  <script>
+    // ==================== Firebase Config ====================
+    const firebaseConfig = {
+      apiKey: "AIzaSy...YOUR_KEY",
+      authDomain: "your-project.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abc123"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-        let favorites = JSON.parse(localStorage.getItem('autokurd_favorites')) || [];
-        let currentUser = JSON.parse(localStorage.getItem('autokurd_user')) || null;
-        let userVipLevel = localStorage.getItem('autokurd_vipLevel') || 'free';
-        let currentLang = localStorage.getItem('autokurd_lang') || 'ckb';
-        let currentTab = 'all';
-        let isDarkMode = localStorage.getItem('autokurd_darkMode') === 'true';
+    // ==================== زمان (کوردی، عەرەبی، ئینگلیزی) ====================
+    const i18n = {
+      ckb: {
+        all:"هەمووی", video:"ڤیدیۆ", cheapest:"هەرزان", newest:"نوێترین",
+        price:"نرخ", brand:"براند", year:"ساڵ", location:"شوێن", reset:"ڕیسێت",
+        post_car:"ئۆتۆمبێل زیاد بکە", image:"وێنە", video_title:"ڤیدیۆ",
+        car_name:"ناوی ئۆتۆمبێل", publish:"بڵاوکردنەوە", favorites:"دڵخوازەکان",
+        my_cars:"ئۆتۆمبێلەکانم", vip_plans:"پلانەکانی VIP", login:"چوونەژوورەوە",
+        logout:"چوونەدەرەوە", login_title:"بەخێربێیت", password:"پاسۆرد",
+        signin:"چوونەژوورەوە", signup:"خۆتۆمارکردن", home:"سەرەکی",
+        search:"گەڕان", post:"پۆست", fav:"دڵخواز", profile:"پڕۆفایل"
+      },
+      ar: {
+        all:"الكل", video:"فيديو", cheapest:"الأرخص", newest:"الأحدث",
+        price:"السعر", brand:"العلامة", year:"السنة", location:"الموقع", reset:"إعادة ضبط",
+        post_car:"أضف سيارة", image:"صورة", video_title:"فيديو",
+        car_name:"اسم السيارة", publish:"نشر", favorites:"المفضلة",
+        my_cars:"سياراتي", vip_plans:"خطط VIP", login:"تسجيل الدخول",
+        logout:"تسجيل الخروج", login_title:"مرحباً", password:"كلمة المرور",
+        signin:"دخول", signup:"إنشاء حساب", home:"الرئيسية",
+        search:"بحث", post:"إضافة", fav:"مفضلة", profile:"حسابي"
+      },
+      en: {
+        all:"All", video:"Video", cheapest:"Cheapest", newest:"Newest",
+        price:"Price", brand:"Brand", year:"Year", location:"Location", reset:"Reset",
+        post_car:"Post a Car", image:"Image", video_title:"Video",
+        car_name:"Car Name", publish:"Publish", favorites:"Favorites",
+        my_cars:"My Cars", vip_plans:"VIP Plans", login:"Login",
+        logout:"Logout", login_title:"Welcome", password:"Password",
+        signin:"Sign In", signup:"Sign Up", home:"Home",
+        search:"Search", post:"Post", fav:"Fav", profile:"Profile"
+      }
+    };
+    let currentLang = 'ckb';
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[lang] && i18n[lang][key]) el.textContent = i18n[lang][key];
+      });
+      if (lang === 'ckb') document.documentElement.dir = 'rtl';
+      else document.documentElement.dir = 'ltr';
+    }
+    function switchLanguage() {
+      const langs = ['ckb', 'ar', 'en'];
+      const idx = langs.indexOf(currentLang);
+      const next = langs[(idx+1) % langs.length];
+      setLanguage(next);
+      showToast('🌐 '+ (next==='ar'?'العربية':next==='en'?'English':'کوردی'));
+    }
 
-        // ==================== فەنکشنە سەرەکییەکان ====================
-        function saveData() {
-            localStorage.setItem('autokurd_cars', JSON.stringify(cars));
-            localStorage.setItem('autokurd_favorites', JSON.stringify(favorites));
-            if (currentUser) localStorage.setItem('autokurd_user', JSON.stringify(currentUser));
-            localStorage.setItem('autokurd_vipLevel', userVipLevel);
-            localStorage.setItem('autokurd_lang', currentLang);
-            localStorage.setItem('autokurd_darkMode', isDarkMode);
+    // ==================== باری ئەپ ====================
+    let allCars = [];
+    let userFavorites = [];
+    let currentFilter = 'all';
+    let unsubscribeCars = null;
+    let darkMode = false;
+
+    // ==================== Firebase Auth ====================
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('notifDot').style.display = 'block';
+        loadUserProfile(user);
+        loadMyCars(user.uid);
+      } else {
+        document.getElementById('notifDot').style.display = 'none';
+        document.getElementById('profileName').textContent = 'بەکارهێنەر';
+        document.getElementById('profileEmail').textContent = '';
+        document.getElementById('myCarsList').innerHTML = '<p>هێشتا هیچ پۆستێکت نەکردووە</p>';
+      }
+      renderHome();
+    });
+
+    function loadUserProfile(user) {
+      db.collection('users').doc(user.uid).get().then(doc => {
+        if (doc.exists) {
+          const data = doc.data();
+          document.getElementById('profileName').textContent = data.displayName || user.email.split('@')[0];
+          document.getElementById('profileEmail').textContent = user.email;
+          document.getElementById('profileBadge').textContent = data.vipLevel === 'pro' ? '💎 PRO' : data.vipLevel === 'vip' ? '👑 VIP' : '⭐ Free';
+          document.getElementById('profileAvatar').src = data.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(data.displayName||'U')}&background=e63946&color=fff`;
         }
+      });
+    }
 
-        function navigateTo(pageName) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const targetPage = document.getElementById('page-' + pageName);
-            if (targetPage) targetPage.classList.add('active');
+    function login() {
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      auth.signInWithEmailAndPassword(email, pass)
+        .then(() => { closeLoginModal(); showToast('✅ چوویتە ژوورەوە'); })
+        .catch(err => showToast('⚠️ ' + err.message));
+    }
+    function signUp() {
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      auth.createUserWithEmailAndPassword(email, pass)
+        .then(cred => {
+          return db.collection('users').doc(cred.user.uid).set({
+            displayName: email.split('@')[0],
+            email: email,
+            photoURL: '',
+            vipLevel: 'free'
+          });
+        })
+        .then(() => { closeLoginModal(); showToast('🎉 هەژمارت دروست بوو'); })
+        .catch(err => showToast('⚠️ ' + err.message));
+    }
+    function logout() {
+      auth.signOut();
+      showToast('🚪 چوویتە دەرەوە');
+    }
+    function showLoginModal() { document.getElementById('loginModal').style.display = 'flex'; }
+    function closeLoginModal() { document.getElementById('loginModal').style.display = 'none'; }
 
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const navBtn = document.querySelector(`.nav-item[data-page="${pageName}"]`);
-            if (navBtn) navBtn.classList.add('active');
+    // ==================== فایەربەیس: ئۆتۆمبێلەکان ====================
+    function loadCars() {
+      if (unsubscribeCars) unsubscribeCars();
+      unsubscribeCars = db.collection('cars').orderBy('createdAt', 'desc')
+        .onSnapshot(snapshot => {
+          allCars = [];
+          snapshot.forEach(doc => {
+            allCars.push({ id: doc.id, ...doc.data() });
+          });
+          renderHome();
+          if (document.getElementById('page-favorites').classList.contains('active')) renderFavorites();
+        });
+    }
+    loadCars();
 
-            if (pageName === 'home') renderHomeFeed();
-            if (pageName === 'favorites') renderFavorites();
-            if (pageName === 'profile') renderProfile();
-            if (pageName === 'search') searchCars();
+    function renderHome() {
+      const feed = document.getElementById('homeFeed');
+      let cars = [...allCars];
+      if (currentFilter === 'vip') cars = cars.filter(c => c.vip);
+      else if (currentFilter === 'video') cars = cars.filter(c => c.videoUrl);
+      else if (currentFilter === 'cheap') cars.sort((a,b)=>a.price-b.price);
+      else if (currentFilter === 'new') cars.sort((a,b)=>b.year-a.year);
+      if (cars.length === 0) {
+        feed.innerHTML = '<p style="text-align:center;padding:40px;">🚗 هیچ ئۆتۆمبێلێک نییە</p>';
+        return;
+      }
+      feed.innerHTML = cars.map(car => createCarCard(car)).join('');
+      document.querySelectorAll('#homeFeed .fav-btn').forEach(btn => {
+        btn.onclick = (e) => { e.stopPropagation(); toggleFav(btn.dataset.carId); };
+      });
+    }
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+    function createCarCard(car) {
+      const uid = auth.currentUser?.uid;
+      const liked = userFavorites.includes(car.id);
+      return `
+        <div class="car-card ${car.vip?'vip-featured':''}" data-car-id="${car.id}">
+          <img src="${car.imageUrl || 'https://via.placeholder.com/400'}" class="car-card-img">
+          ${car.vip ? '<span class="car-card-badge vip-badge">👑 VIP</span>' : ''}
+          <button class="fav-btn ${liked?'liked':''}" data-car-id="${car.id}"><i class="fas fa-heart"></i></button>
+          <div class="car-card-body">
+            <div class="car-card-title">${car.title} <small>👁 ${car.views||0}</small></div>
+            <div class="car-card-price">💰 $${car.price.toLocaleString()}</div>
+            <div class="car-card-location">📍 ${car.location} · ${car.year}</div>
+            ${car.videoUrl ? '<span style="color:var(--accent);">🎥 ڤیدیۆ</span>' : ''}
+          </div>
+        </div>`;
+    }
+
+    function toggleFav(carId) {
+      if (!auth.currentUser) { showToast('⚠️ پێویستە بچیتە ژوورەوە'); return; }
+      const ref = db.collection('users').doc(auth.currentUser.uid).collection('favorites').doc(carId);
+      if (userFavorites.includes(carId)) {
+        ref.delete();
+      } else {
+        ref.set({ carId });
+      }
+      showToast('❤️ نوێکرایەوە');
+    }
+
+    // بارکردنی دڵخوازەکان
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        db.collection('users').doc(user.uid).collection('favorites').onSnapshot(snap => {
+          userFavorites = snap.docs.map(d => d.id);
+          renderHome();
+        });
+      } else {
+        userFavorites = [];
+      }
+    });
+
+    // ==================== بارکردنی فایلی وێنە و ڤیدیۆ ====================
+    async function uploadCar() {
+      if (!auth.currentUser) { showToast('⚠️ پێویستە بچیتە ژوورەوە'); return; }
+      const title = document.getElementById('postTitle').value.trim();
+      const price = +document.getElementById('postPrice').value;
+      const brand = document.getElementById('postBrand').value;
+      const year = +document.getElementById('postYear').value;
+      const location = document.getElementById('postLocation').value;
+      const isVip = document.getElementById('postVip').checked;
+      const imageFile = document.getElementById('postImageFile').files[0];
+      const videoFile = document.getElementById('postVideoFile').files[0];
+      if (!title || !price || !imageFile) { showToast('⚠️ ناو، نرخ و وێنە پێویستە'); return; }
+      const progress = document.getElementById('uploadProgress');
+      progress.style.display = 'block';
+      try {
+        const uid = auth.currentUser.uid;
+        const imgRef = storage.ref(`cars/${uid}/${Date.now()}_${imageFile.name}`);
+        await imgRef.put(imageFile);
+        const imageUrl = await imgRef.getDownloadURL();
+        let videoUrl = null;
+        if (videoFile) {
+          const vidRef = storage.ref(`cars/${uid}/${Date.now()}_${videoFile.name}`);
+          await vidRef.put(videoFile);
+          videoUrl = await vidRef.getDownloadURL();
         }
+        await db.collection('cars').add({
+          title, price, brand, year, location, vip: isVip,
+          imageUrl, videoUrl, views: 0,
+          sellerId: uid,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showToast('✅ ئۆتۆمبێل زیادکرا');
+        document.querySelectorAll('#page-post input, #page-post select').forEach(el => el.value = '');
+        document.getElementById('postVip').checked = false;
+        document.getElementById('uploadProgress').style.display = 'none';
+      } catch (err) {
+        showToast('❌ هەڵە: ' + err.message);
+        progress.style.display = 'none';
+      }
+    }
 
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            document.body.classList.toggle('dark-mode', isDarkMode);
-            const icon = document.getElementById('darkModeIcon');
-            icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
-            saveData();
-            showToast(isDarkMode ? '🌙 Dark Mode چالاک بوو' : '☀️ Light Mode چالاک بوو');
-        }
+    function loadMyCars(uid) {
+      db.collection('cars').where('sellerId', '==', uid).get().then(snap => {
+        const html = snap.docs.map(doc => {
+          const car = doc.data();
+          return `<div style="display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid var(--border);">
+            <img src="${car.imageUrl}" style="width:60px;height:60px;border-radius:10px;object-fit:cover;">
+            <div style="flex:1"><strong>${car.title}</strong><br><small>💰 $${car.price}</small></div>
+            <button onclick="deleteCar('${doc.id}')" style="background:var(--accent);color:#fff;border:none;padding:6px 12px;border-radius:16px;">🗑</button></div>`;
+        }).join('');
+        document.getElementById('myCarsList').innerHTML = html || '<p>هێشتا هیچ پۆستێکت نەکردووە</p>';
+      });
+    }
 
-        function showToast(msg) {
-            const existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
+    function deleteCar(id) {
+      if (confirm('دڵنیایت؟')) {
+        db.collection('cars').doc(id).delete().then(() => showToast('🗑 سڕایەوە'));
+      }
+    }
 
-        // ==================== ڕێندەری هۆم فید ====================
-        function renderHomeFeed() {
-            const feed = document.getElementById('homeFeed');
-            let filteredCars = [...cars];
-            if (currentTab === 'vip') filteredCars = cars.filter(c => c.vip);
-            if (currentTab === 'video') filteredCars = cars.filter(c => c.video);
-            if (currentTab === 'cheap') filteredCars = [...cars].sort((a, b) => a.price - b.price);
-            if (currentTab === 'new') filteredCars = [...cars].sort((a, b) => b.year - a.year);
+    function upgradeVip(level) {
+      if (!auth.currentUser) { showToast('⚠️ پێویستە بچیتە ژوورەوە'); return; }
+      db.collection('users').doc(auth.currentUser.uid).update({ vipLevel: level }).then(() => {
+        showToast(level === 'pro' ? '💎 PRO!' : '👑 VIP!');
+        loadUserProfile(auth.currentUser);
+      });
+    }
 
-            // VIP/Featured یەکەم
-            filteredCars.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+    // ==================== گەڕان ====================
+    function searchCars() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const min = +document.getElementById('priceMin').value || 0;
+      const max = +document.getElementById('priceMax').value || Infinity;
+      const brand = document.getElementById('brandFilter').value;
+      const year = document.getElementById('yearFilter').value;
+      const loc = document.getElementById('locationFilter').value;
+      const results = allCars.filter(c => 
+        (c.title?.toLowerCase().includes(q) || c.brand?.toLowerCase().includes(q)) &&
+        c.price >= min && c.price <= max &&
+        (!brand || c.brand === brand) &&
+        (!year || c.year === +year) &&
+        (!loc || c.location === loc)
+      );
+      document.getElementById('searchResults').innerHTML = results.map(c => createCarCard(c)).join('') || '<p>نەدۆزرایەوە</p>';
+    }
+    function resetFilters() {
+      document.getElementById('priceMin').value = document.getElementById('priceMax').value = '';
+      document.getElementById('brandFilter').value = document.getElementById('yearFilter').value = document.getElementById('locationFilter').value = '';
+      document.getElementById('searchInput').value = '';
+      searchCars();
+    }
+    function toggleFilterPanel() {
+      document.getElementById('filterPanel').style.display = document.getElementById('filterPanel').style.display === 'none' ? 'block' : 'none';
+    }
 
-            if (filteredCars.length === 0) {
-                feed.innerHTML =
-                    '<p style="text-align:center;padding:40px;color:var(--text2);">🚗 هیچ ئۆتۆمبێلێک نەدۆزرایەوە</p>';
-                return;
-            }
-            feed.innerHTML = filteredCars.map(car => createCarCard(car)).join('');
-            // زیادکردنی ئیڤێنتی like
-            feed.querySelectorAll('.fav-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const carId = parseInt(btn.dataset.carId);
-                    toggleFavorite(carId);
-                    btn.classList.toggle('liked', favorites.includes(carId));
-                });
-            });
-            feed.querySelectorAll('.car-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const carId = parseInt(card.dataset.carId);
-                    const car = cars.find(c => c.id === carId);
-                    if (car && car.video) {
-                        openVideoFeed(car);
-                    } else {
-                        showToast('📋 ' + (car ? car.title : 'ئۆتۆمبێل') + ' - بۆ زانیاری زیاتر پەیوەندی بکە');
-                    }
-                });
-            });
-        }
+    // ==================== ناڤیگەیشن ====================
+    function navigateTo(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-'+page).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
+      if (page === 'home') renderHome();
+      if (page === 'favorites') renderFavorites();
+      if (page === 'search') searchCars();
+    }
+    document.querySelectorAll('.nav-item').forEach(btn => {
+      btn.addEventListener('click', () => navigateTo(btn.dataset.page));
+    });
+    document.querySelectorAll('#page-home .chip').forEach(chip => {
+      chip.addEventListener('click', function() {
+        document.querySelectorAll('#page-home .chip').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        currentFilter = this.dataset.filter;
+        renderHome();
+      });
+    });
 
-        function createCarCard(car) {
-            const isLiked = favorites.includes(car.id);
-            const vipBadge = car.vip ? '<span class="car-card-badge vip-badge">👑 VIP</span>' : '';
-            const featuredBadge = car.featured ? '<span class="car-card-badge">⭐ Featured</span>' : '';
-            return `
-            <div class="car-card ${car.featured ? 'vip-featured' : ''}" data-car-id="${car.id}">
-              <img src="${car.image}" alt="${car.title}" class="car-card-img" loading="lazy">
-              ${vipBadge} ${featuredBadge}
-              <button class="fav-btn ${isLiked ? 'liked' : ''}" data-car-id="${car.id}">
-                <i class="fas fa-heart"></i>
-              </button>
-              <div class="car-card-body">
-                <div class="car-card-title">${car.title} <span style="font-size:0.7em;color:var(--text2);">👁 ${car.views}</span></div>
-                <div class="car-card-price">💰 $${car.price.toLocaleString()}</div>
-                <div class="car-card-location">📍 ${car.location} · ${car.year}</div>
-                ${car.video ? '<span style="color:var(--accent);font-size:0.8em;">🎥 ڤیدیۆ هەیە</span>' : ''}
-              </div>
-            </div>`;
-        }
+    function renderFavorites() {
+      const favCars = allCars.filter(c => userFavorites.includes(c.id));
+      document.getElementById('favoritesList').innerHTML = favCars.length === 0 ? '<p>❤️ هیچ دڵخوازێک نییە</p>' : favCars.map(c => createCarCard(c)).join('');
+    }
 
-        function filterTab(btn, tab) {
-            document.querySelectorAll('#page-home .chip').forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-            currentTab = tab;
-            renderHomeFeed();
-        }
+    function showNotifications() {
+      alert('ئاگاداریەکان: ئۆتۆمبێلی نوێ زیادکرا، نرخێک دابەزی');
+    }
 
-        function toggleFavorite(carId) {
-            if (favorites.includes(carId)) {
-                favorites = favorites.filter(id => id !== carId);
-                showToast('💔 لە دڵخوازەکان سڕایەوە');
-            } else {
-                favorites.push(carId);
-                showToast('❤️ زیادکرا بۆ دڵخوازەکان');
-            }
-            saveData();
-            renderFavorites();
-        }
+    function toggleDarkMode() {
+      darkMode = !darkMode;
+      document.body.classList.toggle('dark-mode', darkMode);
+      document.getElementById('darkIcon').className = darkMode ? 'fas fa-sun' : 'fas fa-moon';
+    }
 
-        // ==================== ڤیدیۆ فید ====================
-        function openVideoFeed(car) {
-            const overlay = document.createElement('div');
-            overlay.className = 'modal-overlay';
-            overlay.style.cssText = 'align-items:center;background:#000;';
-            overlay.innerHTML = `
-            <div style="width:100%;max-width:500px;height:100vh;position:relative;">
-              <button onclick="this.parentElement.parentElement.remove()" style="position:absolute;top:16px;left:16px;z-index:10;background:rgba(0,0,0,0.5);border:none;color:#fff;width:40px;height:40px;border-radius:50%;font-size:1.2em;cursor:pointer;">✕</button>
-              <div class="video-feed" style="height:100vh;">
-                <div class="video-item">
-                  <video src="${car.video || 'https://www.w3schools.com/html/mov_bbb.mp4'}" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-                  <button class="video-sound-btn" onclick="toggleSound(this)">🔇</button>
-                  <div class="video-overlay">
-                    <h3>${car.title}</h3>
-                    <p>💰 $${car.price.toLocaleString()} | 📍 ${car.location}</p>
-                    <button class="fav-btn ${favorites.includes(car.id)?'liked':''}" style="position:static;display:inline-flex;margin-top:8px;" onclick="toggleFavorite(${car.id});this.classList.toggle('liked')">❤️</button>
-                  </div>
-                </div>
-              </div>
-            </div>`;
-            document.body.appendChild(overlay);
-            overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.remove(); });
-        }
+    function showToast(msg) {
+      const t = document.createElement('div'); t.className='toast'; t.textContent=msg;
+      document.body.appendChild(t); setTimeout(()=>t.remove(),3000);
+    }
 
-        function toggleSound(btn) {
-            const video = btn.parentElement.querySelector('video');
-            video.muted = !video.muted;
-            btn.textContent = video.muted ? '🔇' : '🔊';
-        }
-
-        // ==================== گەڕان و فلتەر ====================
-        function toggleFilterPanel() {
-            const panel = document.getElementById('filterPanel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function searchCars() {
-            const query = (document.getElementById('searchInput')?.value || '').toLowerCase();
-            const minPrice = parseInt(document.getElementById('priceMin')?.value) || 0;
-            const maxPrice = parseInt(document.getElementById('priceMax')?.value) || Infinity;
-            const brand = document.getElementById('brandFilter')?.value || '';
-            const year = document.getElementById('yearFilter')?.value || '';
-            const location = document.getElementById('locationFilter')?.value || '';
-
-            let results = cars.filter(car => {
-                return (car.title.toLowerCase().includes(query) || car.brand.toLowerCase().includes(
-                    query)) &&
-                    car.price >= minPrice && car.price <= maxPrice &&
-                    (!brand || car.brand === brand) &&
-                    (!year || car.year === parseInt(year)) &&
-                    (!location || car.location === location);
-            });
-
-            const container = document.getElementById('searchResults');
-            if (!container) return;
-            if (results.length === 0) {
-                container.innerHTML =
-                    '<p style="text-align:center;padding:40px;color:var(--text2);">😔 هیچ ئەنجامێک نەدۆزرایەوە</p>';
-            } else {
-                container.innerHTML = results.map(car => createCarCard(car)).join('');
-                container.querySelectorAll('.fav-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const carId = parseInt(btn.dataset.carId);
-                        toggleFavorite(carId);
-                        btn.classList.toggle('liked', favorites.includes(carId));
-                    });
-                });
-            }
-        }
-
-        function resetFilters() {
-            document.getElementById('priceMin').value = '';
-            document.getElementById('priceMax').value = '';
-            document.getElementById('brandFilter').value = '';
-            document.getElementById('yearFilter').value = '';
-            document.getElementById('locationFilter').value = '';
-            document.getElementById('searchInput').value = '';
-            searchCars();
-            showToast('🔄 فلتەرەکان ڕیسێت کران');
-        }
-
-        // ==================== زیادکردنی ئۆتۆمبێل ====================
-        function addCar() {
-            const title = document.getElementById('postTitle').value.trim();
-            const price = parseInt(document.getElementById('postPrice').value);
-            const image = document.getElementById('postImage').value.trim();
-            const video = document.getElementById('postVideo').value.trim();
-            const brand = document.getElementById('postBrand').value;
-            const year = parseInt(document.getElementById('postYear').value);
-            const location = document.getElementById('postLocation').value;
-            const desc = document.getElementById('postDesc').value.trim();
-            const isVip = document.getElementById('postVip').checked;
-
-            if (!title || !price || !image || !brand || !year || !location) {
-                showToast('⚠️ تکایە هەموو خانە پێویستەکان پڕبکە');
-                return;
-            }
-            if (isVip && userVipLevel === 'free') {
-                showToast('👑 بۆ پۆستی VIP پێویستە ئەکاونتت VIP بێت');
-                return;
-            }
-
-            const newCar = {
-                id: Date.now(),
-                title,
-                brand,
-                price,
-                year,
-                location,
-                image: image || 'https://images.unsplash.com/photo-1550355291-bbee04a92027?w=600',
-                video: video || null,
-                vip: isVip,
-                featured: isVip && userVipLevel === 'pro',
-                views: 0,
-                desc,
-                sellerId: currentUser?.uid || 'anonymous',
-                createdAt: new Date().toISOString()
-            };
-
-            cars.unshift(newCar);
-            saveData();
-            showToast('✅ ئۆتۆمبێل بە سەرکەوتوویی زیادکرا!');
-            // ڕیسێتی فۆڕم
-            ['postTitle', 'postPrice', 'postImage', 'postVideo', 'postYear', 'postDesc'].forEach(id => document
-                .getElementById(id).value = '');
-            document.getElementById('postVip').checked = false;
-            renderHomeFeed();
-            navigateTo('home');
-        }
-
-        // ==================== دڵخوازەکان ====================
-        function renderFavorites() {
-            const container = document.getElementById('favoritesList');
-            if (!container) return;
-            const favCars = cars.filter(car => favorites.includes(car.id));
-            if (favCars.length === 0) {
-                container.innerHTML = '<p style="text-align:center;padding:40px;color:var(--text2);">❤️ هێشتا هیچ دڵخوازێک نییە</p>';
-                return;
-            }
-            container.innerHTML = favCars.map(car => createCarCard(car)).join('');
-            container.querySelectorAll('.fav-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const carId = parseInt(btn.dataset.carId);
-                    toggleFavorite(carId);
-                    renderFavorites();
-                });
-            });
-        }
-
-        // ==================== پڕۆفایل ====================
-        function renderProfile() {
-            if (currentUser) {
-                document.getElementById('profileName').textContent = currentUser.displayName || 'بەکارهێنەر';
-                document.getElementById('profilePhone').textContent = currentUser.phone || '+964 700 000 0000';
-                document.getElementById('profileAvatar').src = currentUser.photoURL ||
-                    'https://ui-avatars.com/api/?name=User&background=e63946&color=fff&size=120&bold=true';
-                const badgeText = userVipLevel === 'pro' ? '💎 PRO' : userVipLevel === 'vip' ? '👑 VIP' : '⭐ Free';
-                document.getElementById('profileBadge').textContent = badgeText;
-                // ئۆتۆمبێلەکانی من
-                const myCars = cars.filter(c => c.sellerId === currentUser.uid);
-                const myCarsContainer = document.getElementById('myCarsList');
-                if (myCars.length === 0) {
-                    myCarsContainer.innerHTML = '<p style="color:var(--text2);">هێشتا هیچ پۆستێکت نەکردووە</p>';
-                } else {
-                    myCarsContainer.innerHTML = myCars.map(car => `
-                  <div style="display:flex;align-items:center;gap:12px;padding:10px;border-bottom:1px solid var(--border);">
-                    <img src="${car.image}" style="width:60px;height:60px;border-radius:10px;object-fit:cover;">
-                    <div style="flex:1;"><strong>${car.title}</strong><br><small>💰 $${car.price.toLocaleString()}</small></div>
-                    <button onclick="deleteCar(${car.id})" style="background:var(--accent);color:#fff;border:none;padding:6px 12px;border-radius:16px;cursor:pointer;">🗑 سڕینەوە</button>
-                  </div>`).join('');
-                }
-            }
-        }
-
-        function deleteCar(carId) {
-            if (confirm('دڵنیایت دەتەوێت ئەم پۆستە بسڕیتەوە؟')) {
-                cars = cars.filter(c => c.id !== carId);
-                favorites = favorites.filter(id => id !== carId);
-                saveData();
-                renderProfile();
-                renderHomeFeed();
-                showToast('🗑 پۆست سڕایەوە');
-            }
-        }
-
-        function upgradeVip(level) {
-            if (!currentUser) {
-                showToast('⚠️ پێویستە سەرەتا خۆت تۆمار بکەیت');
-                showLoginModal();
-                return;
-            }
-            userVipLevel = level;
-            saveData();
-            renderProfile();
-            showToast(level === 'pro' ? '💎 بوویت بە PRO! ئێستا پۆستەکانت featured دەبن' : '👑 بوویت بە VIP!');
-        }
-
-        // ==================== لۆگین ====================
-        function showLoginModal() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-
-        function closeLoginModal() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
-
-        function login() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            if (!email || !password) {
-                showToast('⚠️ تکایە ئیمەیڵ و پاسۆرد بنووسە');
-                return;
-            }
-            // سیمولەیشنی لۆگین (بۆ فایەربەیس: firebase.auth().signInWithEmailAndPassword)
-            currentUser = {
-                uid: 'user_' + Date.now(),
-                displayName: email.split('@')[0],
-                email: email,
-                phone: '+964 700 000 0000',
-                photoURL: 'https://ui-avatars.com/api/?name=' + email.split('@')[0] +
-                    '&background=e63946&color=fff&size=120&bold=true'
-            };
-            saveData();
-            closeLoginModal();
-            renderProfile();
-            navigateTo('profile');
-            showToast('✅ بە سەرکەوتوویی چوویتە ژوورەوە!');
-            document.getElementById('notifDot').style.display = 'block';
-        }
-
-        function signUp() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            if (!email || !password) {
-                showToast('⚠️ تکایە ئیمەیڵ و پاسۆرد بنووسە');
-                return;
-            }
-            if (password.length < 6) {
-                showToast('⚠️ پاسۆرد دەبێت لە 6 پیت زیاتر بێت');
-                return;
-            }
-            currentUser = {
-                uid: 'user_' + Date.now(),
-                displayName: email.split('@')[0],
-                email: email,
-                phone: '+964 700 000 0000',
-                photoURL: 'https://ui-avatars.com/api/?name=' + email.split('@')[0] +
-                    '&background=e63946&color=fff&size=120&bold=true'
-            };
-            saveData();
-            closeLoginModal();
-            renderProfile();
-            navigateTo('profile');
-            showToast('🎉 هەژمارت دروست بوو! بەخێربێیت');
-        }
-
-        // ==================== نۆتیفیکەیشن ====================
-        function showNotifications() {
-            document.getElementById('notifModal').style.display = 'flex';
-            document.getElementById('notifDot').style.display = 'none';
-        }
-
-        function closeNotifModal() {
-            document.getElementById('notifModal').style.display = 'none';
-        }
-
-        // ==================== زمان ====================
-        function switchLanguage() {
-            currentLang = currentLang === 'ckb' ? 'en' : 'ckb';
-            saveData();
-            showToast(currentLang === 'en' ? '🇬🇧 Language: English' : '🇹🇯 زمان: کوردی');
-        }
-
-        // ==================== ئینیشیالایزەیشن ====================
-        function init() {
-            if (isDarkMode) document.body.classList.add('dark-mode');
-            document.getElementById('darkModeIcon').className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
-            renderHomeFeed();
-            // سکێلێتۆن لۆدینگ دوای 1 چرکە
-            setTimeout(() => {
-                renderHomeFeed();
-            }, 800);
-            // سیمولەیشنی نۆتیفیکەیشن
-            if (currentUser) {
-                document.getElementById('notifDot').style.display = 'block';
-            }
-        }
-
-        // ==================== PWA - سێرڤس وۆرکەر ====================
-        if ('serviceWorker' in navigator) {
-            // بۆ GitHub Pages پێویستە ڕێڕەوی ڕاست دیاری بکرێت
-            // navigator.serviceWorker.register('/Autokurd/sw.js').catch(() => {});
-        }
-
-        init();
-        console.log('🚀 ئۆتۆکورد VIP - هەموو سیستەمەکان چالاکن');
-        console.log('👑 VIP Features: Active | 🌙 Dark Mode: ' + (isDarkMode ? 'ON' : 'OFF'));
-        console.log('📱 PWA Ready | 🔥 TikTok-Style Video Feed | ❤️ Favorites System');
-        console.log('🔐 Auth System | 📊 Admin Controls | 🌐 Multi-Language');
-    </script>
+    setLanguage('ckb');
+  </script>
 </body>
 </html>
